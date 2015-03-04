@@ -37,12 +37,12 @@ class Controller extends \Ip\WidgetController
     {
         $data['widgetId'] = $widgetId;
         
-        return $data;
+		return parent::dataForJs($revisionId, $widgetId, $data, $skin);
     }
     
     public function post($widgetId, $data)
     {
-		$data = empty($data['options']) ?  array() : $data['options'];
+		$config_data = empty($data['options']) ?  array() : $data['options'];
 		
         $form = new \Ip\Form();
         
@@ -52,7 +52,7 @@ class Controller extends \Ip\WidgetController
                 array(
                     'name' => 'columnWidth',
                     'label' => __('Column Width', 'MasonryGrid'),
-                    'value' => empty($data['columnWidth']) ? '320' : $data['columnWidth']
+                    'value' => empty($config_data['columnWidth']) ? '320' : $config_data['columnWidth']
                 )
             )
         );
@@ -61,7 +61,7 @@ class Controller extends \Ip\WidgetController
                 array(
                     'name' => 'gutter',
                     'label' => __('Gutter', 'MasonryGrid'),
-                    'value' => empty($data['gutter']) ? '10' : $data['gutter']
+                    'value' => empty($config_data['gutter']) ? '10' : $config_data['gutter']
                 )
             )
         );
@@ -70,7 +70,7 @@ class Controller extends \Ip\WidgetController
                 array(
                     'name' => 'isFitWidth',
                     'label' => __('Fits to Width', 'MasonryGrid'),
-                    'value' => empty($data['isFitWidth']) ? 0 : $data['isFitWidth']
+                    'value' => empty($config_data['isFitWidth']) ? 0 : $config_data['isFitWidth']
                 )
             )
         );
@@ -99,9 +99,12 @@ class Controller extends \Ip\WidgetController
         $oldItems = Model::widgetItems($oldId, false);
         foreach($oldItems as $item) {
             $item['widgetId'] = $newId;
+
             unset($item['id']);
             Model::addItem($item);
         }
+		
+		return $data;
     }
 
 
@@ -119,7 +122,7 @@ class Controller extends \Ip\WidgetController
     {
         Model::removeWidgetItems($widgetId);
     }
-
+	
     public function adminHtmlSnippet()
     {
         $form = new \Ip\Form();
