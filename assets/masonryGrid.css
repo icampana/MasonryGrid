@@ -1,0 +1,30 @@
+.ipPluginMasonryGridPopup iframe {
+    width: 100%;
+    height: 100%;
+}
+
+
+.ip.ipPluginMasonryGridPopup .modal-dialog {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+
+.ip.ipPluginMasonryGridPopup .modal-content {
+    height: 100%;
+    border-radius: 0;
+    border: none;
+}
+
+.ip.ipPluginMasonryGridPopup .modal-footer {
+    margin-top: -50px;
+}
+
+.ip.ipPluginMasonryGridPopup .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+}

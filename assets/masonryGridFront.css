@@ -1,0 +1,26 @@
+.image-title{
+	font-size: 1.2em;
+}
+
+.masonry_container{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.masonry_container .item{
+	margin-bottom: 10px;
+}
+
+.masonry_container div.caption{
+	position: absolute;
+	bottom: 0px;
+	background: #000;
+	width: 100%;
+	color: #FFF;
+	min-height: 60px;
+	opacity: 0.75;
+}
+
+.masonry_container div.caption strong{
+	padding: 3px;
+}
