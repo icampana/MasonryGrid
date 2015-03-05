@@ -1,6 +1,6 @@
 {
     "title": "Masonry Grid",
-    "version": "1.00",
+    "version": "1.01",
     "name": "MasonryGrid",
     "description": "Allows you to create a reorderable grid with the Masonry.js effect.",
     "author": "Iván Campaña",
