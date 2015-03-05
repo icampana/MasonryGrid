@@ -12,23 +12,59 @@ class Controller extends \Ip\WidgetController
     {
         return __('Masonry Grid', 'MasonryGrid', false);
     }
-    
+
     public function generateHtml($revisionId, $widgetId, $data, $skin)
     {
 
         $items = Model::widgetItems($widgetId);
-
-		$data['widgetId'] = $widgetId;
-        $data['items'] = $items;
 		
 		// If it has not been configured yet, sets some default values
 		if (empty($data['options'])){
 			$data['options'] = array(
 					'gutter' => 10,
 					'columnWidth' => 320,
-					'isFitWidth' => true
+					'isFitWidth' => true,
+					'isOriginLeft' => true
 				);
 		}
+		
+		$image_options = array(
+                         'type' => 'width',
+                         'width' => ($data['options']['columnWidth'] - 10)
+        );
+
+		foreach($items as $key => $item){
+			// Clean Up the URL
+			$link = '';
+			if ($item['url'] != ''){
+				$protocol = parse_url($item['url'], PHP_URL_SCHEME);
+				$target = '_self';
+				$base_url = ipConfig()->baseUrl();
+				
+				// If it is an absolute URL don't make any transformation
+				if ($protocol == 'http' or $protocol=='https'){
+					$link = $item['url'];
+					
+					// If the URL is pointing to another domain, open in a new page.
+					if (strpos($link, $base_url) === false){
+						$target = '_blank';
+					}
+				} else {
+					// Asume it is a reference to a local page
+					$link = ipFileUrl($item['url']);
+				}
+				$items[$key]['link_target'] = $target;
+			}
+			$items[$key]['clean_url'] = $link;
+			
+			// Create Image path
+			$items[$key]['image_url'] = ipFileUrl( ipReflection($item['image'], $image_options) );
+		}
+	
+		$data['container_id'] = "masonry_wd_{$widgetId}";
+	
+		$data['widgetId'] = $widgetId;
+		$data['items'] = $items;
 
         return parent::generateHtml($revisionId, $widgetId, $data, $skin);
     }
@@ -71,6 +107,21 @@ class Controller extends \Ip\WidgetController
                     'name' => 'isFitWidth',
                     'label' => __('Fits to Width', 'MasonryGrid'),
                     'value' => empty($config_data['isFitWidth']) ? 0 : $config_data['isFitWidth']
+                )
+            )
+        );
+		
+		$origin_options = array(
+								array('left' , __('Left', 'MasonryGrid') ),
+								array('right' ,__('Right', 'MasonryGrid') )
+								);
+		
+		$form->addField(new \Ip\Form\Field\Select(
+                array(
+                    'name' => 'isOriginLeft',
+                    'label' => __('From which side starts?', 'MasonryGrid'),
+					'values' => $origin_options,
+                    'value' => empty($config_data['isOriginLeft']) ? 'left' : $config_data['isOriginLeft']
                 )
             )
         );

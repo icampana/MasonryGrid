@@ -100,7 +100,7 @@ var IpWidget_MasonryGrid;
 			
 			// extract the values
 			$.each(formData, function (key, value) {
-				if ($.inArray(value.name, ['columnWidth', 'gutter', 'isFitWidth']) > -1) {
+				if ($.inArray(value.name, ['columnWidth', 'gutter', 'isFitWidth', 'isOriginLeft']) > -1) {
 					MasonryData[value.name] = value.value;
 				}
 			});

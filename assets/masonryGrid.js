@@ -7,9 +7,15 @@ function load_masonry_containers(){
 			var _gutter = $(this).attr('data-gutter');
 			var _columnWidth = $(this).attr('data-columnWidth');
 			var _fitWidth = true;
+			var _isOriginLeft = true;
 			
 			if ($(this).attr('data-isFitWidth') != 'on') {
 				_fitWidth = false;
+			}
+			var origin_data = $(this).attr('data-isOriginLeft');
+			
+			if ( origin_data != 'left' && origin_data !='' ) {
+				_isOriginLeft = false;
 			}
 			
 			var $container = $(this).masonry();
@@ -22,7 +28,7 @@ function load_masonry_containers(){
 						columnWidth: parseInt(_columnWidth),
 						itemSelector: '.item',
 						isFitWidth: _fitWidth,
-						isOriginLeft: true
+						isOriginLeft: _isOriginLeft
 					});
 			});
 		});
